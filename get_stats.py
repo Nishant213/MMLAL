@@ -99,7 +99,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Supervised Segmentation with Perfect Labels')
     ### 1. Data Loading
-    parser.add_argument('--dataset', default = 'cityscapes800')
+    parser.add_argument('--dataset', default = 'cityscapes688')
     parser.add_argument('--train_ul_n', default = None)
     parser.add_argument('--pathtomodel', default = None, type=str)
     args = parser.parse_args()
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     else:
         device = 'cpu'
     
-    working_ckpt = 'lightning_logs_4v100/version_48/checkpoints/last.ckpt'
+    working_ckpt = 'lightning_logs/version_4/checkpoints/last.ckpt'
     model = SegmenthorSL.load_from_checkpoint(working_ckpt)
     
     model.to(device)
@@ -136,20 +136,24 @@ if __name__ == "__main__":
         batch = test_dataset.next()
         
         image, labels = batch['image'], batch['segmap']
-        
         with torch.no_grad():
             outputs = model(image.to(device))
-        
         if isinstance(outputs, tuple):
             predictions = outputs[0]
         else:
             predictions = outputs
-        
+        # print(predictions.shape)
         predictions = F.interpolate(predictions, size = labels.shape[1:], mode='bilinear', align_corners=True)
-        
         predictions = F.softmax(predictions, dim = 1)
+        print(predictions)
+        # print("Prediction3: ", predictions.shape)
+        # s = 0
+        # for i in range(19):
+        #     s+=predictions[0][i][0][0]
+        # print("SUM = ",s)
         confidences, predictions = torch.max(predictions, dim=1)
-       
+        # print(predictions.shape)
+        # print(confidences.shape)
         _hist = fast_hist(pred=predictions.flatten().cpu().numpy(),
                               gtruth=labels.flatten().cpu().numpy(),
                               num_classes=data_loader_main.classes)

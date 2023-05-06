@@ -26,7 +26,7 @@ if __name__ == "__main__":
     )
 
     ### 1. Data Loading
-    parser.add_argument("--dataset", default="camvid")
+    parser.add_argument("--dataset", default="cityscapes688")
     parser.add_argument("--train_l_n", default="train_al_lab")
     parser.add_argument("--train_ul_n", default=None)
     parser.add_argument("--batch_size", default=4, type=int)

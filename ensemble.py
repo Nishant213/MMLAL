@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Supervised Segmentation with Perfect Labels')
     ### 1. Data Loading
-    parser.add_argument('--dataset', default = 'cityscapes800')
+    parser.add_argument('--dataset', default = 'cityscapes688')
     parser.add_argument('--train_ul_n', default = None)
     parser.add_argument('--pathtomodel', default = None, type=str)
     args = parser.parse_args()
@@ -111,9 +111,16 @@ if __name__ == "__main__":
     data_loader_main = BuildDataLoader(dataset=args.dataset)
     print("Defined dataloader for {}".format(args.dataset))
     
-    clip_dataset = data_loader_main.build_evaluation(apply_transforms=False)
-    ssl_dataset = data_loader_main.build_evaluation()
+    clip_dataset = data_loader_main.build_evaluation(apply_transform=False)['test']
+    ssl_dataset = data_loader_main.build_evaluation()['test']
     
+    ssl_loader = torch.utils.data.DataLoader(
+                dataset=ssl_dataset,
+                batch_size=1,
+                shuffle=False,
+                num_workers=4
+                )
+    ssl_dataset = iter(ssl_loader)
     test_dataset_length = len(clip_dataset)
     
     if torch.cuda.is_available():
@@ -121,7 +128,7 @@ if __name__ == "__main__":
     else:
         device = 'cpu'
     
-    working_ckpt = 'lightning_logs_4v100/version_48/checkpoints/last.ckpt'
+    working_ckpt = 'lightning_logs/version_3/checkpoints/last.ckpt'
     model = SegmenthorSL.load_from_checkpoint(working_ckpt)
     
     model.to(device)
@@ -142,24 +149,19 @@ if __name__ == "__main__":
     
     for idx in tqdm(range(test_dataset_length)):
         clip_batch = clip_dataset[idx]
-        ssl_batch = ssl_dataset[idx]
+        ssl_batch = ssl_dataset.next()
         
         image_clip, labels = clip_batch['image'], clip_batch['segmap']
-        image_ssl = ssl_batch['image']
-
-
+        image_ssl, ssl_labels = ssl_batch['image'], ssl_batch['segmap']
         ## SSL Processing
         with torch.no_grad():
             ssl_outputs = model(image_ssl.to(device))
-        
         if isinstance(ssl_outputs, tuple):
             ssl_predictions = ssl_outputs[0]
         else:
             ssl_predictions = ssl_outputs
-        
-        ssl_predictions = F.interpolate(predictions, size = labels.shape[1:], mode='bilinear', align_corners=True)
-        
-        ssl_predictions = F.softmax(predictions, dim = 0)
+        ssl_predictions = F.interpolate(ssl_predictions, size = ssl_labels.shape[1:], mode='bilinear', align_corners=True)
+        ssl_predictions = F.softmax(ssl_predictions, dim = 1)
 
         ## CLIP Processing
         inputs = processor(text=prompts, images=[image_clip] * len(prompts), padding="max_length", return_tensors="pt")
@@ -176,17 +178,21 @@ if __name__ == "__main__":
         )
         clip_predictions = F.softmax(preds.squeeze(), dim = 0)
 
+
         ## Ensemble
-        predictions = np.array([clip_predictions, ssl_predictions])
-        torch_pred = torch.tensor([clip_predictions, ssl_predictions])
-        print("Combined Preds: ",torch_pred.shape)
-        weights = [0.5, 0.5]
-        weighted_preds = np.tensordot(predictions, weights, axes=((0),(0)))
-        print("Tensor dot: ", weighted_preds.shape)
-        # weighted_preds_torch = torch.tensordot(predictions, weights, axes=((0),(0)))
-        # weighted_ensemble_preds = np.argmax(weighted_preds, axis=3)
-        confidences, preds = torch.max(weighted_preds, dim=1)
-        print("Final preds: ", preds.shape)
+        
+        ssl_predictions = ssl_predictions.squeeze()
+        #print(ssl_predictions)
+        #predictions = np.array([clip_predictions.cpu(), ssl_predictions.cpu()])
+        torch_pred = torch.stack([clip_predictions, ssl_predictions])
+        #weights = [0.5,0.5]
+        weights = torch.tensor([0.2, 0.8])
+        weights = weights.to(device)
+        #weighted_preds = np.tensordot(predictions, weights, axes=((0),(0)))
+        
+        weighted_preds_torch = torch.tensordot(torch_pred, weights, dims=([0],[0]))
+        # weighted_ensemble_preds = np.argmax(weighted_preds, axis=0)
+        confidences, preds = torch.max(weighted_preds_torch.unsqueeze(dim=0), dim=1)
         _hist = fast_hist(pred=preds.flatten().cpu().numpy(),
                               gtruth=labels.flatten().cpu().numpy(),
                               num_classes=data_loader_main.classes)

@@ -54,6 +54,7 @@ class BuildDataset(Dataset):
         self.pseudo_dir = pseudo_dir
         
     def __getitem__(self, index):
+        
         if self.dataset == 'CamVid':
             
             image = Image.open(osp.join(self.root, self.dataset, 'images', '{}.png'.format(self.idx_list[index])))
@@ -229,7 +230,7 @@ class BuildDataLoader:
                 'label_list': self.label_list,
                 }
     
-    def build_evaluation(self, apply_transform = True):
+    def build_evaluation(self, apply_transform=True):
         
         test_dataset = BuildDataset(root=self.root,
                                     dataset=self.dataset,

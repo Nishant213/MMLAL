@@ -26,7 +26,6 @@ import pytorch_lightning as pl
 import torchvision.transforms.functional as transforms_f
 
 from transformers import CLIPSegProcessor, CLIPSegForImageSegmentation
-from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 
 def fast_hist(pred, gtruth, num_classes):
     # mask indicates pixels we care about
@@ -163,15 +162,19 @@ if __name__ == "__main__":
         with torch.no_grad():
             outputs = model(**inputs)
         preds = outputs.logits.unsqueeze(1)
+        # print(type(img))
+        # print(img.size)
         # resize the outputs
         preds = nn.functional.interpolate(
             outputs.logits.unsqueeze(1),
             size=(img.size[1], img.size[0]),
             mode="bilinear"
         )
+        threshold = 0.1
         preds = F.softmax(preds.squeeze(), dim = 0)
         conf, inds = torch.max(preds.unsqueeze(dim=0), dim=1)
-        # print("Preds:", preds.squeeze().shape)
+        
+        # print("Preds:", preds.shape)
         # flat_preds = torch.sigmoid(preds.squeeze()).reshape((preds.shape[0], -1))
         # print("Flat1:", flat_preds.shape)
         # # Initialize a dummy "unlabeled" mask with the threshold
