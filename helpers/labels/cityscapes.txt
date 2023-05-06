@@ -1,0 +1,19 @@
+road; route
+sidewalk
+building
+wall
+fence; fencing; railing
+pole
+traffic light
+traffic sign
+vegetation
+terrain
+sky
+pedestrian; person; human; children
+rider
+car; vehicle; automobile
+truck
+bus; double-decker
+train
+motorcycle
+bicyclist; bicycle; cycle

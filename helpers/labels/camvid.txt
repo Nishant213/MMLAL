@@ -1,0 +1,11 @@
+sky
+building
+pole
+road; route
+sidewalk
+tree; plant; flora
+sign; symbol; signal; stoplight
+fence; fencing; railing
+car; vehicle; automobile; bus; truck; van; caravan
+pedestrian; person; human; children
+bicyclist

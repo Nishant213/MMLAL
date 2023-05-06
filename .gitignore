@@ -1,0 +1,5 @@
+*.ckpt
+__pycache__/
+lightning_logs_cityscapes/*
+.ipynb_checkpoints/*
+networks/weights/*
