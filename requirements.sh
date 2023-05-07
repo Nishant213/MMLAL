@@ -5,5 +5,5 @@ pip install tqdm opencv-python tensorboardX matplotlib
 pip install transformers
 pip install catalyst tabulate
 pip install git+https://github.com/rwightman/pytorch-image-models
-pip install torchtext==0.12.0
+pip install torchtext==0.14.0
 
