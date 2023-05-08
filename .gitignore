@@ -1,5 +1,5 @@
 *.ckpt
 __pycache__/
-lightning_logs_cityscapes/*
+lightning_logs/*
 .ipynb_checkpoints/*
 networks/weights/*
