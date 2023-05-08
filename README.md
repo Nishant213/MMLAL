@@ -1,6 +1,6 @@
 # MMLAL
 Build on top of "Semantic Segmentation with Active Semi-Supervised Representation Learning" [1] with code provided by author Aneesh Rangnekar.
-
+![Model Diagram](/images/diagram.png)
 Files:
 1. main_al.py - File to run active learning approach of S4AL+.
 2. main_ssl.py - File to run self supervised learning approach of S4AL+.
@@ -21,7 +21,17 @@ Setup:
     - Alternatively, create and activate a new conda environment and run <code>bash requirements.sh</code>
 <b>Note:</b> Your system must have a CUDA enabled GPU for the environment setup.
 
- 
+Testing Instructions:
+
+For CLIP
+<code>python CLIPtest.py</code>
+
+For S4AL+
+<code>python get_stats.py</code>
+
+For MMLAL
+<code>python ensemble.py</code>
+
 References:
 
 [1] Rangnekar, Aneesh, Christopher Kanan, and Matthew Hoffman. "Semantic Segmentation with Active Semi-Supervised Representation Learning." arXiv preprint arXiv:2210.08403 (2022).

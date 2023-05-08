@@ -186,7 +186,7 @@ if __name__ == "__main__":
         #predictions = np.array([clip_predictions.cpu(), ssl_predictions.cpu()])
         torch_pred = torch.stack([clip_predictions, ssl_predictions])
         #weights = [0.5,0.5]
-        weights = torch.tensor([0.2, 0.8])
+        weights = torch.tensor([0.45, 0.55])
         weights = weights.to(device)
         #weighted_preds = np.tensordot(predictions, weights, axes=((0),(0)))
         
