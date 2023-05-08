@@ -23,7 +23,7 @@ Build on top of "Semantic Segmentation with Active Semi-Supervised Representatio
     2. <code>conda activate mmlal</code>
     3. <code>bash requirements.sh</code>
 
-<b>Note:</b>Your system must have a CUDA enabled GPU for the environment setup.
+<b>Note:</b> Your system must have a CUDA enabled GPU for the environment setup.
 
 #### Testing Instructions:
 
