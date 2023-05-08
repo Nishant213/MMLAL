@@ -18,8 +18,6 @@ class DeepLabv3Plus_MB(nn.Module):
             
         if backbone == 'mbv2_deeplab':
             self.backbone = mobilenet_v2(pretrained=True) #default assumption
-        elif backbone == 'mbv2_vit':
-            self.backbone = mobilenet_vit(pretrained=True)
         else:
             raise NotImplementedError("only supporting MBV2 right now")
 

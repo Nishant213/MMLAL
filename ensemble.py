@@ -128,7 +128,7 @@ if __name__ == "__main__":
     else:
         device = 'cpu'
     
-    working_ckpt = 'lightning_logs/version_3/checkpoints/last.ckpt'
+    working_ckpt = 'lightning_logs/version_4/checkpoints/last.ckpt'
     model = SegmenthorSL.load_from_checkpoint(working_ckpt)
     
     model.to(device)
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     
     for idx in tqdm(range(test_dataset_length)):
         clip_batch = clip_dataset[idx]
-        ssl_batch = ssl_dataset.next()
+        ssl_batch = next(ssl_dataset)
         
         image_clip, labels = clip_batch['image'], clip_batch['segmap']
         image_ssl, ssl_labels = ssl_batch['image'], ssl_batch['segmap']

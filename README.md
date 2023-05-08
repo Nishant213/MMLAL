@@ -15,11 +15,12 @@ Files:
 
 Setup:
 1. Download and extract the dataset from [here](https://drive.google.com/file/d/1_UpN0msa-D999lO40l0LPOKC5M877dU2/view?usp=sharing) and place it in datasets/
-2. Download the model weights from [here](https://drive.google.com/file/d/1HDdLmFknOVJ4nxFfUrzf6S35dpVJOIfN/view?usp=sharing) and place it in latest_checkpoint/
+2. Download and extract the model weights from [here](https://drive.google.com/file/d/1wkFE18JyKxLRrDipuCs9tt6WEbgvC9tk/view?usp=sharing) and place it in lightning_logs/
 3. Download and extract backbone weights from [here](https://drive.google.com/file/d/1P_x1r2afsr7L0bkwBOrTiNpl9JXdpDAw/view?usp=sharing) and place it in networks/
 4. Environment Setup:
-    - Go to root directory and run <code>conda env create -f env.yml</code>
-    - Alternatively, create and activate a new conda environment and run <code>bash requirements.sh</code>
+    1. <code>conda create -n mmlal python=3.10</code>
+    2. <code>conda activate mmlal</code>
+    3. <code>bash requirements.sh</code>
 <b>Note:</b> Your system must have a CUDA enabled GPU for the environment setup.
 
 Testing Instructions:

@@ -124,7 +124,7 @@ if __name__ == "__main__":
     else:
         device = 'cpu'
     
-    working_ckpt = 'lightning_logs/version_4/checkpoints/last.ckpt'
+    working_ckpt = 'lightning_logs/version_3/checkpoints/last.ckpt'
     model = SegmenthorSL.load_from_checkpoint(working_ckpt)
     
     model.to(device)
@@ -145,7 +145,6 @@ if __name__ == "__main__":
         # print(predictions.shape)
         predictions = F.interpolate(predictions, size = labels.shape[1:], mode='bilinear', align_corners=True)
         predictions = F.softmax(predictions, dim = 1)
-        print(predictions)
         # print("Prediction3: ", predictions.shape)
         # s = 0
         # for i in range(19):

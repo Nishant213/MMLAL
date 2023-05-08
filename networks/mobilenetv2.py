@@ -2,9 +2,8 @@ import torch
 import torch.nn as nn
 # from torchvision.models.utils import load_state_dict_from_url
 from torch.hub import load_state_dict_from_url
-from transformers import MobileViTForSemanticSegmentation
 
-__all__ = ['mobilenet_v2', 'mobilenet_vit']
+__all__ = ['mobilenet_v2']
 
 model_urls = {
     'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth',
@@ -206,18 +205,6 @@ def mobilenet_v2(pretrained=False, progress=True, **kwargs):
         state_dict = load_state_dict_from_url(model_urls['mobilenet_v2'],
                                               progress=progress)
         model.load_state_dict(state_dict, strict=False)
-    return model
-
-"""
-Code from https://github.com/huggingface/transformers/blob/v4.28.1/src/transformers/models/mobilevit/modeling_mobilevit.py#L997
-"""
-
-
-def mobilenet_vit(pretrained=False):
-    if pretrained:
-        model = MobileViTForSemanticSegmentation.from_pretrained("apple/deeplabv3-mobilevit-small")
-    else:
-        model = MobileViTForSemanticSegmentation()
     return model
 
 if __name__ == "__main__":
