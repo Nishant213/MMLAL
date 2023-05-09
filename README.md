@@ -16,7 +16,7 @@ Build on top of "Semantic Segmentation with Active Semi-Supervised Representatio
 
 #### Setup:
 1. Download and extract the dataset from [here](https://drive.google.com/file/d/1_UpN0msa-D999lO40l0LPOKC5M877dU2/view?usp=sharing) and place it in datasets/
-2. Download and extract the model weights from [here](https://drive.google.com/file/d/1wkFE18JyKxLRrDipuCs9tt6WEbgvC9tk/view?usp=sharing) and place it in lightning_logs/
+2. Download and extract the model weights from [here](https://drive.google.com/file/d/17JDGztW79aLfQh6W_VQXrpj6NvhyVTBD/view?usp=sharing) and place it in root/
 3. Download and extract backbone weights from [here](https://drive.google.com/file/d/1P_x1r2afsr7L0bkwBOrTiNpl9JXdpDAw/view?usp=sharing) and place it in networks/
 4. Environment Setup:
     1. <code>conda create -n mmlal python=3.10</code>
