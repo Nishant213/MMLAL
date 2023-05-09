@@ -16,9 +16,8 @@ Build on top of "Semantic Segmentation with Active Semi-Supervised Representatio
 
 #### Setup:
 1. Download and extract the dataset from [here](https://drive.google.com/file/d/1_UpN0msa-D999lO40l0LPOKC5M877dU2/view?usp=sharing) and place it in datasets/
-2. Download and extract the model weights from [here](https://drive.google.com/file/d/17JDGztW79aLfQh6W_VQXrpj6NvhyVTBD/view?usp=sharing) and place it in root/
-3. Download and extract backbone weights from [here](https://drive.google.com/file/d/1P_x1r2afsr7L0bkwBOrTiNpl9JXdpDAw/view?usp=sharing) and place it in networks/
-4. Environment Setup:
+2. Download and extract the model weights from [here](https://drive.google.com/file/d/1sbUybgGBlWyGVIoA-bryK0oigU8ve8ma/view?usp=sharing) and place it in root/
+3. Environment Setup:
     1. <code>conda create -n mmlal python=3.10</code>
     2. <code>conda activate mmlal</code>
     3. <code>bash requirements.sh</code>
