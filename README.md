@@ -18,9 +18,18 @@ Build on top of "Semantic Segmentation with Active Semi-Supervised Representatio
 1. Download and extract the dataset from [here](https://drive.google.com/file/d/1_UpN0msa-D999lO40l0LPOKC5M877dU2/view?usp=sharing) and place it in datasets/
 2. Download and extract the model weights from [here](https://drive.google.com/file/d/1sbUybgGBlWyGVIoA-bryK0oigU8ve8ma/view?usp=sharing) and place it in root/
 3. Environment Setup:
-    1. <code>conda create -n mmlal python=3.10</code>
-    2. <code>conda activate mmlal</code>
-    3. <code>bash requirements.sh</code>
+    - For SCC:
+        1. <code>module load cuda/11.6</code>
+        2. <code>module load miniconda</code>
+        3. <code>module load pytorch/1.11.0</code>
+        4. <code>module load transformers</code>
+        5. <code>conda create -n mmlal python=3.10</code>
+        6. <code>conda activate mmlal</code>
+        7. <code>bash requirements_scc.sh</code>
+    - For other:
+        1. <code>conda create -n mmlal python=3.10</code>
+        2. <code>conda activate mmlal</code>
+        3. <code>bash requirements.sh</code>
 
 <b>Note:</b> Your system must have a CUDA enabled GPU for the environment setup.
 
